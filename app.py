@@ -10,6 +10,10 @@ from moviepy.editor import (
     CompositeAudioClip
 )
 from pydub import AudioSegment, silence
+
+from pydub import AudioSegment
+AudioSegment.converter = "/usr/bin/ffmpeg"
+
 #import whisper
 
 #model = whisper.load_model("base")  # You can use 'tiny', 'base', 'small', 'medium', 'large'
