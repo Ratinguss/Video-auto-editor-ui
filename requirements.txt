@@ -2,6 +2,5 @@ Flask==2.3.3
 moviepy==1.0.3
 pydub==0.25.1
 gunicorn==21.2.0
-whisper
-ffmpeg-python==0.2.0
+openai-whisper
 torch
