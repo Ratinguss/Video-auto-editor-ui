@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Video Editor</title>
+    <meta name="description" content="Web interface for auto video editing">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        secondary: "#1e40af"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-primary">Auto Video Editor</h1>
+            <p class="text-gray-600">Upload your video segments to create your final video</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <form id="videoForm" class="bg-white rounded-lg shadow-md p-6" enctype="multipart/form-data">
+            <div class="space-y-6">
+                <!-- Hook Video -->
+                <div>
+                    <label for="hook" class="block text-sm font-medium text-gray-700 mb-1">Hook Video (MP4/MOV)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="hook" 
+                            name="hook" 
+                            class="hidden" 
+                            accept=".mp4,.mov"
+                            required
+                        >
+                        <label for="hook" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-video mr-2"></i>Choose Hook Video
+                        </label>
+                        <span id="hookFileName" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+
+                <!-- Body Video -->
+                <div>
+                    <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body Video (MP4/MOV)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="body" 
+                            name="body" 
+                            class="hidden" 
+                            accept=".mp4,.mov"
+                            required
+                        >
+                        <label for="body" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-video mr-2"></i>Choose Body Video
+                        </label>
+                        <span id="bodyFileName" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+
+                <!-- CTA Video -->
+                <div>
+                    <label for="cta" class="block text-sm font-medium text-gray-700 mb-1">Call To Action Video (MP4/MOV)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="cta" 
+                            name="cta" 
+                            class="hidden" 
+                            accept=".mp4,.mov"
+                            required
+                        >
+                        <label for="cta" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-video mr-2"></i>Choose CTA Video
+                        </label>
+                        <span id="ctaFileName" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+
+                <!-- Overlay Video -->
+                <div>
+                    <label for="overlays" class="block text-sm font-medium text-gray-700 mb-1">Overlay Video (optional)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="overlays" 
+                            name="overlays" 
+                            class="hidden" 
+                            accept=".mp4"
+                        >
+                        <label for="overlays" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-video mr-2"></i>Choose Overlay Video
+                        </label>
+                        <span id="overlayFileName" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+
+                <!-- B-roll Clips -->
+                <div>
+                    <label for="brolls" class="block text-sm font-medium text-gray-700 mb-1">B-roll Clips (optional, multiple)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="brolls" 
+                            name="brolls" 
+                            class="hidden" 
+                            multiple 
+                            accept=".mp4"
+                        >
+                        <label for="brolls" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-film mr-2"></i>Choose B-roll Videos
+                        </label>
+                        <span id="brollFileNames" class="ml-2 text-sm text-gray-500">No files chosen</span>
+                    </div>
+                </div>
+
+                <!-- Background Music -->
+                <div>
+                    <label for="music" class="block text-sm font-medium text-gray-700 mb-1">Background Music (optional)</label>
+                    <div class="mt-1 flex items-center">
+                        <input 
+                            type="file" 
+                            id="music" 
+                            name="music" 
+                            class="hidden" 
+                            accept=".mp3"
+                        >
+                        <label for="music" class="cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-music mr-2"></i>Choose Music File
+                        </label>
+                        <span id="musicFileName" class="ml-2 text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button 
+                        type="submit" 
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
+                    >
+                        <i class="fas fa-magic mr-2"></i> Generate Video
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Result Section -->
+        <div id="resultSection" class="bg-white rounded-lg shadow-md p-6 mt-8 hidden">
+            <div class="text-center">
+                <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">Video Generated Successfully!</h2>
+                <p class="text-gray-600 mb-4">Your video is ready to download.</p>
+                <a 
+                    id="downloadLink" 
+                    href="#" 
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                >
+                    <i class="fas fa-download mr-2"></i> Download Video
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t mt-12">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-500 text-sm">
+            <p>Auto Video Editor &copy; 2023</p>
+        </div>
+    </footer>
+
+    <script>
+        // File input handlers
+        document.getElementById('hook').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('hookFileName').textContent = fileName;
+        });
+
+        document.getElementById('body').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('bodyFileName').textContent = fileName;
+        });
+
+        document.getElementById('cta').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('ctaFileName').textContent = fileName;
+        });
+
+        document.getElementById('overlays').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('overlayFileName').textContent = fileName;
+        });
+
+        document.getElementById('brolls').addEventListener('change', function(e) {
+            const fileNames = Array.from(e.target.files).map(file => file.name).join(', ');
+            document.getElementById('brollFileNames').textContent = fileNames || 'No files chosen';
+        });
+
+        document.getElementById('music').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('musicFileName').textContent = fileName;
+        });
+
+        // Form submission
+        document.getElementById('videoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            
+            // Create FormData object
+            const formData = new FormData(e.target);
+            
+            try {
+                // In a real implementation, this would call your Flask endpoint
+                const response = await submitFormData(formData);
+                
+                // Hide form and show result
+                e.target.classList.add('hidden');
+                document.getElementById('resultSection').classList.remove('hidden');
+                
+                // Set the download link (in a real app, this would be from the response)
+                document.getElementById('downloadLink').href = response.downloadUrl || '#';
+            } catch (error) {
+                alert('Error processing video: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-magic mr-2"></i> Generate Video';
+            }
+        });
+
+        // For demo purposes - in a real implementation, you would make an actual API call
+        async function submitFormData(formData) {
+            const response = await fetch('/generate', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Server error');
+            }
+
+            // Expect a JSON response with a download URL
+            const result = await response.json();
+            return { downloadUrl: result.downloadUrl };
+        }
+
+    </script>
+</body>
+</html>

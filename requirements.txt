@@ -1,0 +1,6 @@
+Flask
+moviepy
+pydub
+gunicorn
+whisper
+ffmpeg-python
