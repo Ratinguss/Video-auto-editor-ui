@@ -4,3 +4,4 @@ pydub==0.25.1
 gunicorn==21.2.0
 whisper
 ffmpeg-python==0.2.0
+torch
